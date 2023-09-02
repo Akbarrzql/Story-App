@@ -1,7 +1,7 @@
 package com.artworkspace.storyapp.di
 
-import com.artworkspace.storyapp.data.remote.retrofit.ApiConfig
-import com.artworkspace.storyapp.data.remote.retrofit.ApiService
+import com.example.storyapp.data.remote.ApiConfig
+import com.example.storyapp.data.remote.ApiServices
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -11,13 +11,7 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 class ApiModule {
-
-    /**
-     * Provide API Service instance for Hilt
-     *
-     * @return ApiService
-     */
     @Provides
     @Singleton
-    fun provideApiService(): ApiService = ApiConfig.getApiService()
+    fun provideApiService(): ApiServices = ApiConfig.getApiService()
 }

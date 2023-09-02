@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Story App</string>
+    <string name="welcome">INMIND</string>
+    <string name="desc_welocome">Open your mind and find new inspiration</string>
+    <string name="login_btn">Login</string>
+    <string name="register_btn">Register</string>
+    <string name="no_account">Dont have an account yet? Register</string>
+    <string name="forrgot_password">Forgot password?</string>
+    <string name="hint_password">Enter your password</string>
+    <string name="password">Password</string>
+    <string name="hint_email">example@gmail.com</string>
+    <string name="email">Email</string>
+    <string name="desc_login">Please enter your account first to login.</string>
+    <string name="desc_register">Please enter your account first to register.</string>
+    <string name="nama">Name</string>
+    <string name="hint_nama">Name</string>
+    <string name="no_account_register">Dont have an account yet? login</string>
+    <string name="text_story">Create Your Story</string>
+    <string name="desc_story">Valuable stories are the essence of life. They make us the humans we want to be.</string>
+    <string name="desc_tv">Description</string>
+    <string name="hint_story">What do you want to tell?</string>
+    <string name="text_camera_btn">Camera</string>
+    <string name="tv_gallery_btn">Galley</string>
+    <string name="tv_gambar">Image</string>
+
+    <string name="desc_valid">The description cannot be empty</string>
+    <string name="img_valid">Insert the image first</string>
+    <string name="succes_upload">Your story has been successfully uploaded</string>
+    <string name="failed_upload">Cerita kamu gagal di upload</string>
+    <string name="choose_picture">Your story failed to upload</string>
+    <string name="logout">Logout</string>
+    <string name="language">Language</string>
+    <string name="detail_story">Story Details</string>
+    <string name="succes_login">Login Successfully</string>
+    <string name="succes_register">Registered successfully</string>
+    <string name="password_minimal">Minimum password is 8</string>
+    <string name="email_valid">Email is not valid</string>
+    <string name="create_story">Create Story</string>
+</resources>
