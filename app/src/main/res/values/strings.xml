@@ -1,3 +1,44 @@
 <resources>
     <string name="app_name">Story App</string>
+    <string name="welcome">INMIND</string>
+    <string name="desc_welocome">Buka pikiranmu dan temukan inspirasi baru</string>
+    <string name="login_btn">Masuk</string>
+    <string name="register_btn">Daftar</string>
+    <string name="no_account">Belum punya akun? Daftar</string>
+    <string name="forrgot_password">Lupa Password?</string>
+    <string name="hint_password">Masukkan password anda</string>
+    <string name="password">Password</string>
+    <string name="hint_email">example@gmail.com</string>
+    <string name="email">Email</string>
+    <string name="desc_login">Silahkan masukkan akun anda terlebih dahulu untuk masuk.</string>
+    <string name="desc_register">Silahkan buat akun anda terlebih dahulu untuk masuk.</string>
+    <string name="nama">Nama</string>
+    <string name="hint_nama">Nama</string>
+    <string name="no_account_register">Belum punya akun? Masuk</string>
+    <string name="text_story">Buat Cerita Kamu</string>
+    <string name="desc_story">Cerita berharga adalah inti kehidupan. Mereka membuat kita menjadi manusia yang kita inginkan.</string>
+    <string name="desc_tv">Deksripsi</string>
+    <string name="hint_story">Apa yang ingin kamu ceritakan?</string>
+    <string name="text_camera_btn">Kamera</string>
+    <string name="tv_gallery_btn">Galeri</string>
+    <string name="tv_gambar">Gambar</string>
+
+    <string name="desc_valid">Deksripsi tidak boleh kosong</string>
+    <string name="img_valid">Masukkan gambar terlebih dahulu</string>
+    <string name="succes_upload">Cerita kamu berhasil di upload</string>
+    <string name="failed_upload">Cerita kamu gagal di upload</string>
+    <string name="choose_picture">Cerita kamu gagal di upload</string>
+    <string name="logout">Keluar</string>
+    <string name="language">Bahasa</string>
+    <string name="detail_story">Detail Cerita</string>
+    <string name="succes_login">Berhasil Login</string>
+    <string name="succes_register">Berhasil Register</string>
+    <string name="password_minimal">Minimal password adalah 8</string>
+    <string name="email_valid">Email tidak valid</string>
+    <string name="create_story">Buat Cerita</string>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="add_widget">Add widget</string>
+    <string name="app_widget_description">This is an app widget description</string>
+    <string name="gambar_cerita">Gambar Cerita</string>
+    <string name="assets">assets</string>
 </resources>
