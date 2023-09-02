@@ -1,4 +1,4 @@
-package com.example.githubuserdicodingbfaa.api
+package com.example.storyapp.data.remote
 
 import okhttp3.Interceptor
 import okhttp3.Request

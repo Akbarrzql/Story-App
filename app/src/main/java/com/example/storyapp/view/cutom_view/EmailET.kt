@@ -11,9 +11,6 @@ import androidx.appcompat.widget.AppCompatEditText
 import com.example.storyapp.R
 
 class EmailET : AppCompatEditText {
-
-    val customErrorTextView = findViewById<TextView>(R.id.et_email_login)
-
     constructor(context: Context) : super(context) {
         init()
     }

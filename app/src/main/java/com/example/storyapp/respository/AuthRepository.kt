@@ -41,5 +41,4 @@ class AuthRepository @Inject constructor(private val apiServices: ApiServices, p
 
         suspend fun saveAuthToken(token: String) = authPreferencesDataSource.saveAuthToken(token)
 
-//        suspend fun clear() = authPreferencesDataSource.clear()
 }

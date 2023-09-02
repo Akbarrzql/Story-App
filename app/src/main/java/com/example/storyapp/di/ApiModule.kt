@@ -1,4 +1,4 @@
-package com.artworkspace.storyapp.di
+package com.example.storyapp.di
 
 import com.example.storyapp.data.remote.ApiConfig
 import com.example.storyapp.data.remote.ApiServices

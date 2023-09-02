@@ -50,6 +50,7 @@
             android:layout_marginStart="100dp"
             android:layout_marginTop="60dp"
             android:src="@drawable/vector_bg"
+            android:contentDescription="@string/assets"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_masuk_desc" />
@@ -61,6 +62,7 @@
             android:layout_marginStart="150dp"
             android:layout_marginTop="80dp"
             android:src="@drawable/vector_fbg"
+            android:contentDescription="@string/assets"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_masuk_desc" />
@@ -218,6 +220,7 @@
                 android:backgroundTint="@color/brown"
                 android:fontFamily="@font/poppinsmedium"
                 android:text="@string/register_btn"
+                android:contentDescription="@string/register_btn"
                 android:textColor="@color/white"
                 android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -226,12 +229,12 @@
 
 
             <TextView
+                android:id="@+id/tv_masuk"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/no_account_register"
                 android:fontFamily="@font/poppinsregular"
                 android:textColor="@color/brown"
-                android:onClick="masuk"
                 android:layout_gravity="bottom|center_horizontal"
                 android:layout_marginBottom="10dp"/>
 

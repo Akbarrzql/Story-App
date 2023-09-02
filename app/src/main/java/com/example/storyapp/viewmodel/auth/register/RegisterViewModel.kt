@@ -2,7 +2,6 @@ package com.example.storyapp.viewmodel.auth.register
 
 import androidx.lifecycle.ViewModel
 import com.example.storyapp.respository.AuthRepository
-import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 

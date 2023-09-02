@@ -31,26 +31,26 @@ class SpalshScreenActivity : AppCompatActivity() {
     }
 
     private fun splashScreen() {
-        lifecycleScope.launchWhenCreated {
+        lifecycleScope.launch {
             launch {
                 viewModel.getAuthToken().collect { token ->
                     if (token.isNullOrEmpty()) {
-                        binding.ivSplashScreen.alpha = 0f
-                        binding.ivSplashScreen.animate().setDuration(6500).alpha(1f).withEndAction {
-                            Intent(this@SpalshScreenActivity, MainAuthActivity::class.java).also { intent ->
-                                startActivity(intent)
-                                finish()
-                            }
-                        }
+                        goIntent(MainAuthActivity::class.java)
                     } else {
-                        binding.ivSplashScreen.alpha = 0f
-                        binding.ivSplashScreen.animate().setDuration(6500).alpha(1f).withEndAction {
-                            Intent(this@SpalshScreenActivity, MainActivity::class.java).also { intent ->
-                                startActivity(intent)
-                                finish()
-                            }
-                        }
+                        goIntent(MainActivity::class.java)
                     }
+                }
+            }
+        }
+    }
+
+    private fun goIntent(clazz: Class<*>) {
+        binding.ivSplashScreen.apply {
+            alpha = 0f
+            animate().setDuration(6500).alpha(1f).withEndAction {
+                Intent(this@SpalshScreenActivity, clazz).also { intent ->
+                    startActivity(intent)
+                    finish()
                 }
             }
         }

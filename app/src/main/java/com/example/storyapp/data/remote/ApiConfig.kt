@@ -1,18 +1,19 @@
 package com.example.storyapp.data.remote
 
-import com.example.githubuserdicodingbfaa.api.MyInterceptor
 import com.example.storyapp.BuildConfig
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class ApiConfig {
-    companion object{
+object ApiConfig {
         fun getApiService(): ApiServices {
-            val loggingInterceptor =
+            val loggingInterceptor = if(BuildConfig.DEBUG) {
                 HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
-            val myInterceptor = MyInterceptor() // Create an instance of MyInterceptor
+            } else {
+                HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.NONE)
+            }
+            val myInterceptor = MyInterceptor()
             val client = OkHttpClient.Builder()
                 .addInterceptor(loggingInterceptor)
                 .addInterceptor(myInterceptor)
@@ -24,5 +25,4 @@ class ApiConfig {
                 .build()
             return retrofit.create(ApiServices::class.java)
         }
-    }
 }

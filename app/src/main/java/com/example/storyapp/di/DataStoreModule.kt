@@ -1,4 +1,4 @@
-package com.artworkspace.storyapp.di
+package com.example.storyapp.di
 
 import android.content.Context
 import androidx.datastore.core.DataStore

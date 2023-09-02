@@ -3,7 +3,6 @@ package com.example.storyapp.view.story
 import android.content.ContentResolver
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.media.ExifInterface
@@ -12,7 +11,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
-import android.provider.OpenableColumns
 import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
@@ -54,7 +52,7 @@ class CreateStoryActivity : AppCompatActivity() {
 
         supportActionBar?.hide()
 
-        lifecycleScope.launchWhenCreated {
+        lifecycleScope.launch {
             launch {
                 viewModel.getAuthToken().collect { authToken ->
                     if (!authToken.isNullOrEmpty()) token = authToken
@@ -156,7 +154,7 @@ class CreateStoryActivity : AppCompatActivity() {
                 requestImageFile
             )
 
-            lifecycleScope.launchWhenStarted {
+            lifecycleScope.launch {
                 launch {
                     viewModel.uploadStory(token, imageMultipart, description).collect { response ->
                         response.onSuccess {

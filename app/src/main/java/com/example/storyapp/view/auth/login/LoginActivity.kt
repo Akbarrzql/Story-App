@@ -6,9 +6,6 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.core.content.ContentProviderCompat.requireContext
-import androidx.core.widget.addTextChangedListener
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.example.storyapp.view.home.MainActivity
 import com.example.storyapp.R
@@ -39,6 +36,13 @@ class LoginActivity : AppCompatActivity() {
             login()
         }
 
+        binding.tvNoAccount.setOnClickListener {
+            Intent (this, RegisterActivity::class.java).also {
+                startActivity(it)
+                finish()
+            }
+        }
+
     }
 
     private fun login() {
@@ -46,7 +50,7 @@ class LoginActivity : AppCompatActivity() {
         val password = binding.etPasswordLogin.text.toString()
         setLoadingState(true)
 
-        lifecycleScope.launchWhenResumed {
+        lifecycleScope.launch  {
 
             if(loginJob.isActive) loginJob.cancel()
 
@@ -79,32 +83,7 @@ class LoginActivity : AppCompatActivity() {
             etPasswordLogin.isEnabled = !isLoading
             btnMasuk.isEnabled = !isLoading
 
-            if (isLoading){
-                progressBar.visibility = View.VISIBLE
-            }else{
-                progressBar.visibility = View.GONE
-            }
-        }
-    }
-
-    private fun isValidPassword(password: String): Boolean {
-        val pattern = Pattern.compile("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).{8,}$")
-
-        return pattern.matcher(password).matches()
-    }
-
-    private fun isValidEmail(email: String): Boolean {
-        val pattern = Pattern.compile(
-            "^\\w+([.-]?\\w+)*@\\w+([.-]?\\w+)*(\\.\\w{2,3})+$"
-        )
-
-        return pattern.matcher(email).matches()
-    }
-
-    fun register(view: View) {
-        Intent (this, RegisterActivity::class.java).also {
-            startActivity(it)
-            finish()
+            if (isLoading) View.VISIBLE else View.GONE
         }
     }
 }

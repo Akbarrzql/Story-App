@@ -14,8 +14,6 @@ import com.example.storyapp.R
 
 class PasswordET : AppCompatEditText {
 
-    val customErrorTextView = findViewById<TextView>(R.id.customErrorTextViewPassword)
-
     constructor(context: Context) : super(context) {
         init()
     }

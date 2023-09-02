@@ -6,13 +6,10 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.core.widget.addTextChangedListener
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.example.storyapp.R
 import com.example.storyapp.databinding.ActivityRegisterBinding
 import com.example.storyapp.view.auth.login.LoginActivity
-import com.example.storyapp.viewmodel.auth.login.LoginViewModel
 import com.example.storyapp.viewmodel.auth.register.RegisterViewModel
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
@@ -37,6 +34,13 @@ class RegisterActivity : AppCompatActivity() {
             register()
         }
 
+        binding.tvMasuk.setOnClickListener {
+            Intent (this, LoginActivity::class.java).also {
+                startActivity(it)
+                finish()
+            }
+        }
+
     }
 
     private fun register() {
@@ -45,7 +49,7 @@ class RegisterActivity : AppCompatActivity() {
         val password = binding.etPasswordDaftar.text.toString()
         setLoadingState(true)
 
-        lifecycleScope.launchWhenResumed {
+        lifecycleScope.launch {
             if (registerJob.isActive) registerJob.cancel()
 
             registerJob = launch {
@@ -76,31 +80,7 @@ class RegisterActivity : AppCompatActivity() {
             etPasswordDaftar.isEnabled = !isLoading
             btnDaftar.isEnabled = !isLoading
 
-            if (isLoading){
-                progressBar.visibility = View.VISIBLE
-            } else {
-                progressBar.visibility = View.GONE
-            }
-        }
-    }
-
-    private fun isValidPassword(password: String): Boolean {
-        val pattern = Pattern.compile("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).{8,}$")
-
-        return pattern.matcher(password).matches()
-    }
-
-    private fun isValidEmail(email: String): Boolean {
-        val pattern = Pattern.compile(
-            "^\\w+([.-]?\\w+)*@\\w+([.-]?\\w+)*(\\.\\w{2,3})+$"
-        )
-
-        return pattern.matcher(email).matches()
-    }
-    fun masuk(view: View) {
-        Intent (this, LoginActivity::class.java).also {
-            startActivity(it)
-            finish()
+            if (isLoading) View.VISIBLE else View.GONE
         }
     }
 }

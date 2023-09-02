@@ -2,6 +2,7 @@ package com.example.storyapp.view.home
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.example.storyapp.R
 import com.example.storyapp.databinding.ActivityDetailBinding
@@ -10,9 +11,7 @@ import com.example.storyapp.model.ListStoryItem
 class DetailActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityDetailBinding
-    companion object {
-        const val EXTRA_STORY = "extra_story"
-    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDetailBinding.inflate(layoutInflater)
@@ -28,15 +27,28 @@ class DetailActivity : AppCompatActivity() {
                 tvStoryDate.text = story.createdAt.toString()
                 tvStoryDescription.text = story.description
 
-                Glide.with(this@DetailActivity)
-                    .load(story.photoUrl)
-                    .into(ivStoryImage)
+                story.photoUrl?.let {
+                    ivStoryImage.loadImage(
+                        url = it
+                    )
+                }
             }
         }
+    }
+
+    fun ImageView.loadImage(url: String) {
+        Glide.with(this.context)
+            .load(url)
+            .centerCrop()
+            .into(this)
     }
 
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
         return true
+    }
+
+    companion object {
+        const val EXTRA_STORY = "extra_story"
     }
 }

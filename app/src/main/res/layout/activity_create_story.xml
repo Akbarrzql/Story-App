@@ -96,7 +96,8 @@
                 android:src="@drawable/ilus_register"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_email" />
+                app:layout_constraintTop_toBottomOf="@+id/tv_email"
+                android:contentDescription="@string/gambar_cerita" />
 
             <LinearLayout
                 android:layout_width="match_parent"

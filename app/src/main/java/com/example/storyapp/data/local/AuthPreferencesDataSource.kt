@@ -22,12 +22,6 @@ class AuthPreferencesDataSource @Inject constructor(private val dataSource: Data
         }
     }
 
-//    suspend fun clear(){
-//        dataSource.edit { preferences ->
-//            preferences.clear()
-//        }
-//    }
-
     companion object{
         private val KEY_AUTH = stringPreferencesKey("auth_token")
     }

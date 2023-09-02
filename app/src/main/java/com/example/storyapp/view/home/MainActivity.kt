@@ -33,10 +33,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var listAdapter: ListStoryAdapter
 
-    companion object {
-        const val EXTRA_TOKEN = "extra_token"
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -127,5 +123,9 @@ class MainActivity : AppCompatActivity() {
             adapter = listAdapter
             layoutManager = LinearLayoutManager(this@MainActivity)
         }
+    }
+
+    companion object {
+        const val EXTRA_TOKEN = "extra_token"
     }
 }

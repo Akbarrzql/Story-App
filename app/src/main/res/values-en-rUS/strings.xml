@@ -37,4 +37,6 @@
     <string name="password_minimal">Minimum password is 8</string>
     <string name="email_valid">Email is not valid</string>
     <string name="create_story">Create Story</string>
+    <string name="gambar_cerita">Image Story</string>
+    <string name="assets">assets</string>
 </resources>

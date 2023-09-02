@@ -3,9 +3,7 @@ package com.example.storyapp.view.auth
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.example.storyapp.R
 import com.example.storyapp.databinding.ActivityMainAuthBinding
-import com.example.storyapp.databinding.ActivitySpalshScreenBinding
 import com.example.storyapp.view.auth.login.LoginActivity
 import com.example.storyapp.view.auth.register.RegisterActivity
 import dagger.hilt.android.AndroidEntryPoint
