@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.example.storyapp.R
+import com.example.storyapp.data.local.entity.Story
 import com.example.storyapp.databinding.ActivityDetailBinding
 import com.example.storyapp.model.ListStoryItem
 
@@ -19,7 +20,7 @@ class DetailActivity : AppCompatActivity() {
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        val story = intent.getParcelableExtra<ListStoryItem>(EXTRA_STORY)
+        val story = intent.getParcelableExtra<Story>(EXTRA_STORY)
 
         if(story != null) {
             binding.apply {

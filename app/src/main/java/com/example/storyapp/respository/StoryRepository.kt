@@ -1,5 +1,12 @@
 package com.example.storyapp.respository
 
+import androidx.paging.ExperimentalPagingApi
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import com.example.storyapp.data.local.entity.Story
+import com.example.storyapp.data.local.room.StoryDatabase
+import com.example.storyapp.data.paging_source.StoryRemoteMediator
 import com.example.storyapp.data.remote.ApiServices
 import com.example.storyapp.model.ResponseAddStory
 import com.example.storyapp.model.ResponseGetStory
@@ -11,22 +18,24 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 
-class StoryRepository @Inject constructor(private val apiServices: ApiServices) {
+@ExperimentalPagingApi
+class StoryRepository @Inject constructor(private val apiServices: ApiServices, private val storyDatabase: StoryDatabase) {
 
-    suspend fun getAllStories(
-        token: String,
-        page: Int? = null,
-        size: Int? = null
-    ): Flow<Result<ResponseGetStory>> = flow {
-        try {
-            val bearerToken = generateBearerToken(token)
-            val response = apiServices.getAllStories(bearerToken, page, size)
-            emit(Result.success(response))
-        } catch (e: Exception) {
-            e.printStackTrace()
-            emit(Result.failure(e))
-        }
-    }.flowOn(Dispatchers.IO)
+    fun getAllStories(token: String): Flow<PagingData<Story>> {
+        return Pager(
+            config = PagingConfig(
+                pageSize = 5,
+            ),
+            remoteMediator = StoryRemoteMediator(
+                storyDatabase,
+                apiServices,
+                generateBearerToken(token)
+            ),
+            pagingSourceFactory = {
+                storyDatabase.storyDao().getAllStories()
+            }
+        ).flow
+    }
 
     suspend fun uploadStory(
         token: String,

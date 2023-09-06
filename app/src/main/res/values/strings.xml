@@ -41,4 +41,6 @@
     <string name="app_widget_description">This is an app widget description</string>
     <string name="gambar_cerita">Gambar Cerita</string>
     <string name="assets">assets</string>
+    <string name="retry">Coba lagi</string>
+    <string name="loading_error_message">Gagal memuat data</string>
 </resources>

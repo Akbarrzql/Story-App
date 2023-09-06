@@ -11,18 +11,23 @@ import androidx.activity.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.paging.ExperimentalPagingApi
+import androidx.paging.LoadState
+import androidx.paging.PagingData
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.storyapp.R
 import com.example.storyapp.adapter.ListStoryAdapter
+import com.example.storyapp.adapter.LoadingStateAdapter
+import com.example.storyapp.data.local.entity.Story
 import com.example.storyapp.databinding.ActivityMainBinding
-import com.example.storyapp.model.ListStoryItem
 import com.example.storyapp.view.auth.MainAuthActivity
 import com.example.storyapp.view.story.CreateStoryActivity
 import com.example.storyapp.viewmodel.home.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
+@ExperimentalPagingApi
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
@@ -41,11 +46,12 @@ class MainActivity : AppCompatActivity() {
         token = intent.getStringExtra(EXTRA_TOKEN).toString()
 
 
-        lifecycleScope.launchWhenCreated {
+        lifecycleScope.launch {
             launch {
                 viewModel.getAuthToken().collect { authToken ->
                     if (!authToken.isNullOrEmpty()) token = authToken
-                    getAllStories(token)
+                    getAllStories()
+                    setRecyclerView()
                     refreshLayout()
                 }
             }
@@ -84,44 +90,38 @@ class MainActivity : AppCompatActivity() {
 
     private fun refreshLayout(){
         binding.refreshLayout.setOnRefreshListener {
-            getAllStories(token)
+            getAllStories()
             binding.refreshLayout.isRefreshing = false
         }
     }
 
-    private fun getAllStories(token: String) {
-        lifecycleScope.launch {
-            lifecycle.repeatOnLifecycle(Lifecycle.State.RESUMED) {
-                viewModel.getAllStories(token).collect { result ->
-                    result.onSuccess {
-                        val response = result.getOrNull()
-                        val listStory = response?.listStory as List<ListStoryItem>
-                        setRecyclerView()
-                        updateRecylerView(listStory)
-                    }
-
-                    result.onFailure {
-                        val response = result.exceptionOrNull()
-                        response?.printStackTrace()
-                    }
-                }
-            }
+    private fun getAllStories() {
+        viewModel.getAllStories(token).observe(this@MainActivity) { listStory ->
+            updateRecylerView(listStory)
         }
     }
 
-    private fun updateRecylerView(listStory: List<ListStoryItem>) {
+    private fun updateRecylerView(listStory: PagingData<Story>) {
+        recyclerView = binding.listMateri
         val recyclerViewState = recyclerView.layoutManager?.onSaveInstanceState()
-        listAdapter.submitList(listStory)
+        listAdapter.submitData(lifecycle, listStory)
         recyclerView.layoutManager?.onRestoreInstanceState(recyclerViewState)
     }
     
     private fun setRecyclerView() {
         recyclerView = binding.listMateri
-        recyclerView.layoutManager = LinearLayoutManager(this)
         listAdapter = ListStoryAdapter()
-        recyclerView.apply {
-            adapter = listAdapter
-            layoutManager = LinearLayoutManager(this@MainActivity)
+        recyclerView.layoutManager = LinearLayoutManager(this)
+
+        try {
+            recyclerView = binding.listMateri
+            recyclerView.apply {
+                adapter = listAdapter.withLoadStateFooter(
+                    footer = LoadingStateAdapter { listAdapter.retry() }
+                )
+            }
+        }catch (e: Exception){
+            e.printStackTrace()
         }
     }
 

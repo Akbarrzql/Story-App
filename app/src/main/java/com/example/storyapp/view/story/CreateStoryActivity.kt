@@ -17,6 +17,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.core.content.FileProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.paging.ExperimentalPagingApi
 import com.bumptech.glide.load.resource.bitmap.TransformationUtils.rotateImage
 import com.example.storyapp.R
 import com.example.storyapp.databinding.ActivityCreateStoryBinding
@@ -35,6 +36,7 @@ import java.io.FileOutputStream
 import java.io.InputStream
 import java.io.OutputStream
 
+@ExperimentalPagingApi
 @AndroidEntryPoint
 class CreateStoryActivity : AppCompatActivity() {
 

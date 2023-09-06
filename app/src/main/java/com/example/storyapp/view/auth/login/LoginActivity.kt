@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.paging.ExperimentalPagingApi
 import com.example.storyapp.view.home.MainActivity
 import com.example.storyapp.R
 import com.example.storyapp.databinding.ActivityLoginBinding
@@ -18,7 +19,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import java.util.regex.Pattern
-
+@ExperimentalPagingApi
 @AndroidEntryPoint
 class LoginActivity : AppCompatActivity() {
 

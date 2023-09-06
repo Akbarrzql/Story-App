@@ -39,4 +39,6 @@
     <string name="create_story">Create Story</string>
     <string name="gambar_cerita">Image Story</string>
     <string name="assets">assets</string>
+    <string name="retry">Try again</string>
+    <string name="loading_error_message">Error loading data</string>
 </resources>
