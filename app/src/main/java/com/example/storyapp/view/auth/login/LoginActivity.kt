@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.paging.ExperimentalPagingApi
 import com.example.storyapp.view.home.MainActivity
 import com.example.storyapp.R
 import com.example.storyapp.databinding.ActivityLoginBinding
@@ -17,8 +18,9 @@ import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import java.util.regex.Pattern
 
+
+@ExperimentalPagingApi
 @AndroidEntryPoint
 class LoginActivity : AppCompatActivity() {
 
@@ -48,7 +50,7 @@ class LoginActivity : AppCompatActivity() {
     private fun login() {
         val email = binding.etEmailLogin.text.toString().trim()
         val password = binding.etPasswordLogin.text.toString()
-        setLoadingState(true)
+        binding.progressBar.visibility = View.VISIBLE
 
         lifecycleScope.launch  {
 
@@ -70,20 +72,10 @@ class LoginActivity : AppCompatActivity() {
 
                     result.onFailure {
                         Snackbar.make(binding.root, it.message.toString(), Snackbar.LENGTH_SHORT).show()
-                        setLoadingState(false)
+                        binding.progressBar.visibility = View.GONE
                     }
                 }
             }
-        }
-    }
-
-    private fun setLoadingState(isLoading: Boolean) {
-        binding.apply {
-            etEmailLogin.isEnabled = !isLoading
-            etPasswordLogin.isEnabled = !isLoading
-            btnMasuk.isEnabled = !isLoading
-
-            if (isLoading) View.VISIBLE else View.GONE
         }
     }
 }

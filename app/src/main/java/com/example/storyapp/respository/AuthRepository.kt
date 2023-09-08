@@ -1,6 +1,6 @@
 package com.example.storyapp.respository
 
-import com.example.storyapp.data.local.AuthPreferencesDataSource
+import com.example.storyapp.data.local.data_source.AuthPreferencesDataSource
 import com.example.storyapp.data.remote.ApiServices
 import com.example.storyapp.model.ResponseLogin
 import com.example.storyapp.model.ResponseRegister
