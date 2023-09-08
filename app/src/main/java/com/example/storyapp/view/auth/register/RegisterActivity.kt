@@ -16,7 +16,6 @@ import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import java.util.regex.Pattern
 
 @ExperimentalPagingApi
 @AndroidEntryPoint
@@ -49,7 +48,7 @@ class RegisterActivity : AppCompatActivity() {
         val name = binding.etNamaDaftar.text.toString().trim()
         val email = binding.etEmailDaftar.text.toString().trim()
         val password = binding.etPasswordDaftar.text.toString()
-        setLoadingState(true)
+        binding.progressBar.visibility = View.VISIBLE
 
         lifecycleScope.launch {
             if (registerJob.isActive) registerJob.cancel()
@@ -67,22 +66,11 @@ class RegisterActivity : AppCompatActivity() {
 
                     result.onFailure {
                         Snackbar.make(binding.root, it.message.toString(), Snackbar.LENGTH_SHORT).show()
-                        setLoadingState(false)
+                        binding.progressBar.visibility = View.GONE
                     }
                 }
             }
         }
 
-    }
-
-    private fun setLoadingState(isLoading: Boolean) {
-        binding.apply {
-            etNamaDaftar.isEnabled = !isLoading
-            etEmailDaftar.isEnabled = !isLoading
-            etPasswordDaftar.isEnabled = !isLoading
-            btnDaftar.isEnabled = !isLoading
-
-            if (isLoading) View.VISIBLE else View.GONE
-        }
     }
 }

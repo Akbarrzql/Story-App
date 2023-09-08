@@ -1,4 +1,4 @@
-package com.example.storyapp.data.local
+package com.example.storyapp.data.local.data_source
 
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences

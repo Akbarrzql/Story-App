@@ -7,12 +7,10 @@ import android.view.ViewGroup
 import androidx.core.app.ActivityOptionsCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.storyapp.model.ListStoryItem
 import com.example.storyapp.view.home.DetailActivity
 import androidx.core.util.Pair
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import com.example.storyapp.data.local.entity.Story
 import com.example.storyapp.databinding.StoryLayoutBinding
 

@@ -1,20 +1,26 @@
 package com.example.storyapp.view.story
 
+import android.Manifest
 import android.content.ContentResolver
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.location.Location
 import android.media.ExifInterface
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
+import android.provider.Settings
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.ExperimentalPagingApi
@@ -22,12 +28,15 @@ import com.bumptech.glide.load.resource.bitmap.TransformationUtils.rotateImage
 import com.example.storyapp.R
 import com.example.storyapp.databinding.ActivityCreateStoryBinding
 import com.example.storyapp.viewmodel.story.StoryViewModel
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.ByteArrayOutputStream
@@ -41,9 +50,11 @@ import java.io.OutputStream
 class CreateStoryActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityCreateStoryBinding
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var currentPhotoPath: String
 
     private var getFile: File? = null
+    private var location: Location? = null
     private var token: String = ""
 
     private val viewModel: StoryViewModel by viewModels()
@@ -53,6 +64,8 @@ class CreateStoryActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         supportActionBar?.hide()
+
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
         lifecycleScope.launch {
             launch {
@@ -68,6 +81,14 @@ class CreateStoryActivity : AppCompatActivity() {
 
         binding.btnGallery.setOnClickListener {
             startIntentGallery()
+        }
+
+        binding.switchLoc.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                lastLocation()
+            } else {
+                this.location = null
+            }
         }
 
         binding.btnStory.setOnClickListener {
@@ -156,9 +177,17 @@ class CreateStoryActivity : AppCompatActivity() {
                 requestImageFile
             )
 
+            var lat: RequestBody? = null
+            var lon: RequestBody? = null
+
+            if (location != null) {
+                lat = location?.latitude.toString().toRequestBody("text/plain".toMediaType())
+                lon = location?.longitude.toString().toRequestBody("text/plain".toMediaType())
+            }
+
             lifecycleScope.launch {
                 launch {
-                    viewModel.uploadStory(token, imageMultipart, description).collect { response ->
+                    viewModel.uploadStory(token, imageMultipart, description, lat, lon).collect { response ->
                         response.onSuccess {
                             Toast.makeText(
                                 this@CreateStoryActivity,
@@ -228,6 +257,70 @@ class CreateStoryActivity : AppCompatActivity() {
             storageDir
         )
     }
+
+    private val requestPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestMultiplePermissions()
+    ) { permissions ->
+        Log.d("location", "$permissions")
+        when {
+            permissions[Manifest.permission.ACCESS_COARSE_LOCATION] ?: false -> {
+                lastLocation()
+            }
+            else -> {
+                Snackbar
+                    .make(
+                        binding.root,
+                        getString(R.string.permission_denied),
+                        Snackbar.LENGTH_SHORT
+                    )
+                    .setActionTextColor(getColor(R.color.white))
+                    .setAction(getString(R.string.permission_action)) {
+                        Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).also { intent ->
+                            val uri = Uri.fromParts("package", packageName, null)
+                            intent.data = uri
+
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                            startActivity(intent)
+                        }
+                    }
+                    .show()
+
+                binding.switchLoc.isChecked = false
+            }
+        }
+    }
+
+    private fun lastLocation() {
+        if (ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
+            // Location permission granted
+            fusedLocationClient.lastLocation.addOnSuccessListener { location ->
+                if (location != null) {
+                    this.location = location
+                    Log.d("location", "LastLocation: ${location.latitude}, ${location.longitude}")
+                } else {
+                    Toast.makeText(
+                        this,
+                        getString(R.string.activate_location_message),
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                    binding.switchLoc.isChecked = false
+                }
+            }
+        } else {
+            // Location permission denied
+            requestPermissionLauncher.launch(
+                arrayOf(
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+                )
+            )
+        }
+    }
+
 
     private fun uriToFile(selectedImg: Uri, context: Context): File {
         val contentResolver: ContentResolver = context.contentResolver

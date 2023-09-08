@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.Flow
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import javax.inject.Inject
+
 @ExperimentalPagingApi
 @HiltViewModel
 class StoryViewModel @Inject constructor(
@@ -22,6 +23,8 @@ class StoryViewModel @Inject constructor(
     suspend fun uploadStory(
         token: String,
         file: MultipartBody.Part,
-        description: RequestBody
-    ): Flow<Result<ResponseAddStory>> = storyRepository.uploadStory(token, file, description)
+        description: RequestBody,
+        lat: RequestBody?,
+        lon: RequestBody?
+    ): Flow<Result<ResponseAddStory>> = storyRepository.uploadStory(token, file, description, lat, lon)
 }

@@ -6,7 +6,6 @@ import android.text.InputType
 import android.text.TextWatcher
 import android.util.AttributeSet
 import android.util.Patterns
-import android.widget.TextView
 import androidx.appcompat.widget.AppCompatEditText
 import com.example.storyapp.R
 

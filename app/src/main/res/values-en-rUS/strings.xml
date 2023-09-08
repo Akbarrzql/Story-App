@@ -41,4 +41,11 @@
     <string name="assets">assets</string>
     <string name="retry">Try again</string>
     <string name="loading_error_message">Error loading data</string>
+    <string name="title_activity_maps">MapsActivity</string>
+    <string name="maps">Maps</string>
+    <string name="location_message">Please turn on your location</string>
+    <string name="permission_denied">Permission denied</string>
+    <string name="permission_action">Please allow permission</string>
+    <string name="activate_location_message">Please activate your location</string>
+    <string name="data_not_found">Data not found</string>
 </resources>

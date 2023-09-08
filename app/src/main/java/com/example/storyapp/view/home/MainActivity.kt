@@ -1,6 +1,5 @@
 package com.example.storyapp.view.home
 
-import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -8,6 +7,7 @@ import android.provider.Settings
 import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.viewModels
+import androidx.core.view.isVisible
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -22,6 +22,7 @@ import com.example.storyapp.adapter.LoadingStateAdapter
 import com.example.storyapp.data.local.entity.Story
 import com.example.storyapp.databinding.ActivityMainBinding
 import com.example.storyapp.view.auth.MainAuthActivity
+import com.example.storyapp.view.location.MapsActivity
 import com.example.storyapp.view.story.CreateStoryActivity
 import com.example.storyapp.viewmodel.home.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -50,7 +51,7 @@ class MainActivity : AppCompatActivity() {
             launch {
                 viewModel.getAuthToken().collect { authToken ->
                     if (!authToken.isNullOrEmpty()) token = authToken
-                    getAllStories()
+                    getAllStories(token)
                     setRecyclerView()
                     refreshLayout()
                 }
@@ -84,20 +85,27 @@ class MainActivity : AppCompatActivity() {
                 startActivity(Intent(Settings.ACTION_LOCALE_SETTINGS))
                 true
             }
+            R.id.maps -> {
+                startActivity(Intent(this, MapsActivity::class.java))
+                true
+            }
             else -> super.onOptionsItemSelected(item)
         }
     }
 
     private fun refreshLayout(){
         binding.refreshLayout.setOnRefreshListener {
-            getAllStories()
-            binding.refreshLayout.isRefreshing = false
+            getAllStories(token)
         }
     }
 
-    private fun getAllStories() {
-        viewModel.getAllStories(token).observe(this@MainActivity) { listStory ->
-            updateRecylerView(listStory)
+    private fun getAllStories(token: String) {
+        lifecycleScope.launch {
+            lifecycle.repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                viewModel.getAllStories(token).observe(this@MainActivity) { listStory ->
+                    updateRecylerView(listStory)
+                }
+            }
         }
     }
 
@@ -113,12 +121,31 @@ class MainActivity : AppCompatActivity() {
         listAdapter = ListStoryAdapter()
         recyclerView.layoutManager = LinearLayoutManager(this)
 
+        listAdapter.addLoadStateListener { loadState ->
+            if ((loadState.source.refresh is LoadState.NotLoading && loadState.append.endOfPaginationReached && listAdapter.itemCount < 1) || loadState.source.refresh is LoadState.Error) {
+                binding.apply {
+                    lottieNotFound.isVisible = true
+                    tvNotFound.isVisible = true
+                    recyclerView.isVisible = false
+                }
+            } else {
+                binding.apply {
+                    lottieNotFound.isVisible = false
+                    tvNotFound.isVisible = false
+                    recyclerView.isVisible = true
+                }
+            }
+
+            binding.refreshLayout.isRefreshing = loadState.source.refresh is LoadState.Loading
+        }
+
         try {
             recyclerView = binding.listMateri
             recyclerView.apply {
                 adapter = listAdapter.withLoadStateFooter(
                     footer = LoadingStateAdapter { listAdapter.retry() }
                 )
+                recyclerView.layoutManager = LinearLayoutManager(this@MainActivity)
             }
         }catch (e: Exception){
             e.printStackTrace()
@@ -128,4 +155,5 @@ class MainActivity : AppCompatActivity() {
     companion object {
         const val EXTRA_TOKEN = "extra_token"
     }
+
 }

@@ -4,10 +4,10 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ImageView
 import com.bumptech.glide.Glide
-import com.example.storyapp.R
 import com.example.storyapp.data.local.entity.Story
 import com.example.storyapp.databinding.ActivityDetailBinding
-import com.example.storyapp.model.ListStoryItem
+import com.example.storyapp.utils.DateFormatter
+import java.util.TimeZone
 
 class DetailActivity : AppCompatActivity() {
 
@@ -25,7 +25,7 @@ class DetailActivity : AppCompatActivity() {
         if(story != null) {
             binding.apply {
                 tvStoryUsername.text = story.name
-                tvStoryDate.text = story.createdAt.toString()
+                tvStoryDate.text = DateFormatter.formatDate(story.createdAt, TimeZone.getDefault().id)
                 tvStoryDescription.text = story.description
 
                 story.photoUrl?.let {

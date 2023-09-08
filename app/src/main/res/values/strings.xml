@@ -22,7 +22,6 @@
     <string name="text_camera_btn">Kamera</string>
     <string name="tv_gallery_btn">Galeri</string>
     <string name="tv_gambar">Gambar</string>
-
     <string name="desc_valid">Deksripsi tidak boleh kosong</string>
     <string name="img_valid">Masukkan gambar terlebih dahulu</string>
     <string name="succes_upload">Cerita kamu berhasil di upload</string>
@@ -36,11 +35,15 @@
     <string name="password_minimal">Minimal password adalah 8</string>
     <string name="email_valid">Email tidak valid</string>
     <string name="create_story">Buat Cerita</string>
-    <string name="appwidget_text">EXAMPLE</string>
-    <string name="add_widget">Add widget</string>
-    <string name="app_widget_description">This is an app widget description</string>
     <string name="gambar_cerita">Gambar Cerita</string>
     <string name="assets">assets</string>
     <string name="retry">Coba lagi</string>
     <string name="loading_error_message">Gagal memuat data</string>
+    <string name="title_activity_maps">MapsActivity</string>
+    <string name="maps">Maps</string>
+    <string name="location_message">Anda harus mengizinkan akses lokasi</string>
+    <string name="permission_denied">Lokasi Ditolak</string>
+    <string name="permission_action">Izinkan Lokasi</string>
+    <string name="activate_location_message">Aktifkan lokasi anda</string>
+    <string name="data_not_found">Data tidak ditemukan</string>
 </resources>

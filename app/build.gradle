@@ -4,6 +4,7 @@ plugins {
     id 'kotlin-parcelize'
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
+    id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
 }
 
 android {
@@ -46,6 +47,7 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.9.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    implementation 'com.google.android.gms:play-services-maps:18.1.0'
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
@@ -88,7 +90,7 @@ dependencies {
     // Room
     implementation "androidx.room:room-runtime:2.4.2"
     implementation "androidx.room:room-ktx:2.4.2"
-    implementation 'androidx.room:room-paging:2.5.0-alpha01'
+    implementation 'androidx.room:room-paging:2.4.0-rc01'
     kapt "androidx.room:room-compiler:2.4.2"
 
     // Paging3
@@ -122,5 +124,16 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-intents:3.4.0'
     androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.4.0'
 
+    testImplementation "androidx.arch.core:core-testing:2.1.0" // InstantTaskExecutorRule
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.1" //TestDispatcher
+    testImplementation 'org.mockito:mockito-core:3.12.4'
+    testImplementation 'org.mockito:mockito-inline:3.12.4'
+
     debugImplementation "androidx.fragment:fragment-testing:1.4.1"
+
+    //location
+    implementation 'com.google.android.gms:play-services-location:19.0.1'
+
+    //lotie
+    implementation 'com.airbnb.android:lottie:6.0.1'
 }
